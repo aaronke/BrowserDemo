@@ -6,9 +6,15 @@
     <RelativeLayout
         android:id="@+id/address_bar_container"
         android:layout_width="fill_parent"
-        android:layout_height="40dp">
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/web_favicon"
+            android:layout_width="50dp"
+            android:visibility="gone"
+            android:layout_height="match_parent" />
         <EditText
             android:id="@+id/address_bar"
+            android:layout_toRightOf="@+id/web_favicon"
             android:hint="@string/address_bar_hint"
             android:singleLine="true"
             android:inputType="text"
