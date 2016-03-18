@@ -4,4 +4,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="address_bar_hint">Search or type URL</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="bookmark_title">Bookmarks</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

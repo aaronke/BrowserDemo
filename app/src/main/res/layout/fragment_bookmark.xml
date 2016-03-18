@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.browserdemo.aaron.browserdemo.ui.fragment.BookmarkFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/bookmark_title"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/bookmark_title"
+        android:textSize="20sp"/>
+    <GridView
+        android:id="@+id/bookmark_grid"
+        android:layout_below="@+id/bookmark_title"
+        android:numColumns="3"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+
+    </GridView>
+
+</RelativeLayout>
