@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * Created by Aaronke on 3/17/2016.
  */
-public class StorageHanlder {
+public class StorageHelper {
 
     public static String getDirs(String path){
         File dir=new File(path);

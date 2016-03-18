@@ -26,7 +26,7 @@ public class MyAppWebViewClient extends WebViewClient {
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        Bitmap favicon=view.getFavicon();
+        //view.getUrl();
         super.onPageFinished(view, url);
     }
 

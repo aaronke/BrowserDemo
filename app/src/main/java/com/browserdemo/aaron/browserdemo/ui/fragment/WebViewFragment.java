@@ -15,7 +15,7 @@ import android.webkit.WebView;
 import com.browserdemo.aaron.browserdemo.R;
 import com.browserdemo.aaron.browserdemo.ui.MyAppWebChromeClient;
 import com.browserdemo.aaron.browserdemo.ui.MyAppWebViewClient;
-import com.browserdemo.aaron.browserdemo.util.StorageHanlder;
+import com.browserdemo.aaron.browserdemo.util.StorageHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -70,7 +70,7 @@ public class WebViewFragment extends Fragment {
     }
 
     private void init(){
-        WebIconDatabase.getInstance().open(StorageHanlder.getDirs(context.getCacheDir().getAbsolutePath() + "/icons/"));
+        WebIconDatabase.getInstance().open(StorageHelper.getDirs(context.getCacheDir().getAbsolutePath() + "/icons/"));
 
         WebSettings webSettings=mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);

@@ -14,13 +14,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.browserdemo.aaron.browserdemo.R;
+import com.browserdemo.aaron.browserdemo.ui.fragment.BookmarkFragment;
 import com.browserdemo.aaron.browserdemo.ui.fragment.WebViewFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnEditorAction;
 
-public class MainActivity extends AppCompatActivity implements WebViewFragment.OnWebViewFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements WebViewFragment.OnWebViewFragmentInteractionListener,
+        BookmarkFragment.OnBookmarkFragmentInteractionListener{
 
 
     @Bind(R.id.address_bar)
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
 
     private FragmentManager fragmentManager;
     private WebViewFragment webViewFragment;
+    private BookmarkFragment bookmarkFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
 
     private void init(){
         fragmentManager=getSupportFragmentManager();
+        bookmarkFragment=BookmarkFragment.newInstance();
+        fragmentManager.beginTransaction().add(R.id.container,bookmarkFragment)
+                .addToBackStack(null).commit();
     }
 
 
@@ -65,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -76,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
             boolean goBack=((WebViewFragment)webView).goBack();
             if (!goBack) super.onBackPressed();
         }
-
     }
 
     @OnEditorAction(R.id.address_bar)
@@ -87,8 +91,10 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
                 webViewFragment.setWebViewUrl(url);
             }else{
                 webViewFragment=WebViewFragment.newInstance(url);
-                fragmentManager.beginTransaction().add(R.id.container,webViewFragment,"webview").commit();
+                fragmentManager.beginTransaction().add(R.id.container,webViewFragment,"webview")
+                        .addToBackStack(null).commit();
             }
+
             return true;
         }
         return false;
@@ -96,6 +102,11 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onBookmarkFragmentInteraction(Uri uri) {
 
     }
 }
