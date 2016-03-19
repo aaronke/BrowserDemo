@@ -16,14 +16,16 @@ import android.widget.ImageView;
 import com.browserdemo.aaron.browserdemo.R;
 import com.browserdemo.aaron.browserdemo.ui.fragment.BookmarkFragment;
 import com.browserdemo.aaron.browserdemo.ui.fragment.WebViewFragment;
+import com.browserdemo.aaron.browserdemo.util.IdTagUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnEditorAction;
 
 public class MainActivity extends AppCompatActivity implements WebViewFragment.OnWebViewFragmentInteractionListener,
-        BookmarkFragment.OnBookmarkFragmentInteractionListener{
+        BookmarkFragment.OnBookmarkFragmentInteractionListener {
 
+    private static String TAG= MainActivity.class.getSimpleName();
 
     @Bind(R.id.address_bar)
     EditText mAddressBar;
@@ -33,22 +35,23 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
     private FragmentManager fragmentManager;
     private WebViewFragment webViewFragment;
     private BookmarkFragment bookmarkFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar actionBar=getSupportActionBar();
-        if(actionBar!=null)actionBar.hide();
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.hide();
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         init();
     }
 
-    private void init(){
-        fragmentManager=getSupportFragmentManager();
-        bookmarkFragment=BookmarkFragment.newInstance();
-        fragmentManager.beginTransaction().add(R.id.container,bookmarkFragment)
+    private void init() {
+        fragmentManager = getSupportFragmentManager();
+        bookmarkFragment = BookmarkFragment.newInstance();
+        fragmentManager.beginTransaction().add(R.id.container, bookmarkFragment)
                 .addToBackStack(null).commit();
     }
 
@@ -76,22 +79,22 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
 
     @Override
     public void onBackPressed() {
-        Fragment webView=fragmentManager.findFragmentByTag("webview");
-        if (webView instanceof WebViewFragment){
-            boolean goBack=((WebViewFragment)webView).goBack();
+        Fragment webView = fragmentManager.findFragmentByTag(IdTagUtil.WEBVIEW_FRAGMENT_TAG);
+        if (webView instanceof WebViewFragment) {
+            boolean goBack = ((WebViewFragment) webView).goBack();
             if (!goBack) super.onBackPressed();
         }
     }
 
     @OnEditorAction(R.id.address_bar)
-    public boolean onEditorAction(int actionId,KeyEvent key){
-        if (actionId== EditorInfo.IME_ACTION_SEARCH){
-            String url=mAddressBar.getText().toString();
-            if (webViewFragment!=null && webViewFragment.isAdded()){
+    public boolean onEditorAction(int actionId, KeyEvent key) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            String url = mAddressBar.getText().toString();
+            if (webViewFragment != null && webViewFragment.isAdded()) {
                 webViewFragment.setWebViewUrl(url);
-            }else{
-                webViewFragment=WebViewFragment.newInstance(url);
-                fragmentManager.beginTransaction().add(R.id.container,webViewFragment,"webview")
+            } else {
+                webViewFragment = WebViewFragment.newInstance(url);
+                fragmentManager.beginTransaction().add(R.id.container, webViewFragment, IdTagUtil.WEBVIEW_FRAGMENT_TAG)
                         .addToBackStack(null).commit();
             }
 
@@ -100,11 +103,13 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
         return false;
     }
 
+    // webView fragment callback
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
 
+    // bookmark fragment callback
     @Override
     public void onBookmarkFragmentInteraction(Uri uri) {
 

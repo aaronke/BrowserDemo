@@ -15,7 +15,7 @@ import android.webkit.WebView;
 import com.browserdemo.aaron.browserdemo.R;
 import com.browserdemo.aaron.browserdemo.ui.MyAppWebChromeClient;
 import com.browserdemo.aaron.browserdemo.ui.MyAppWebViewClient;
-import com.browserdemo.aaron.browserdemo.util.StorageHelper;
+import com.browserdemo.aaron.browserdemo.helper.StorageHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

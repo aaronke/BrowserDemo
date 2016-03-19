@@ -1,4 +1,4 @@
-package com.browserdemo.aaron.browserdemo.util;
+package com.browserdemo.aaron.browserdemo.helper;
 
 import java.io.File;
 
@@ -10,7 +10,6 @@ public class StorageHelper {
     public static String getDirs(String path){
         File dir=new File(path);
         if (!dir.exists()) dir.mkdir();
-
         return path;
     }
 }
