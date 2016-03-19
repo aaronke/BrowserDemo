@@ -7,8 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.browserdemo.aaron.browserdemo.R;
+import com.browserdemo.aaron.browserdemo.adapter.BookmarkGridViewAdapter;
 
 import butterknife.ButterKnife;
 
@@ -48,7 +51,7 @@ public class BookmarkFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -78,5 +81,4 @@ public class BookmarkFragment extends Fragment {
         // TODO: Update argument type and name
         public void onBookmarkFragmentInteraction(Uri uri);
     }
-
 }
