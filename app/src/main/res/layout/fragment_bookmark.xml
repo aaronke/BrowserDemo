@@ -8,16 +8,26 @@
         android:id="@+id/bookmark_title"
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/bookmark_title"
         android:textSize="20sp"/>
+    <View
+        android:id="@+id/separate_view"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/bookmark_title"
+        android:background="@android:color/darker_gray">
+    </View>
     <GridView
         android:id="@+id/bookmark_grid"
-        android:layout_below="@+id/bookmark_title"
+        android:layout_below="@+id/separate_view"
+        android:paddingTop="30dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
         android:numColumns="auto_fit"
-        android:columnWidth="90dp"
-        android:verticalSpacing="20dp"
-        android:horizontalSpacing="20dp"
+        android:columnWidth="70dp"
+        android:verticalSpacing="30dp"
+        android:horizontalSpacing="40dp"
         android:layout_width="fill_parent"
         android:layout_height="match_parent">
 

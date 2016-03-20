@@ -39,7 +39,7 @@ public class BookmarkGridViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return bookmarks!=null?bookmarks.get(position):null;
+        return null;
     }
 
     @Override
@@ -50,23 +50,24 @@ public class BookmarkGridViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        if (convertView==null){
-            convertView=inflater.inflate(R.layout.gridview_item,null);
+        View view=convertView;
+        if (view==null){
+            view=inflater.inflate(R.layout.gridview_item,null);
             viewHolder=new ViewHolder();
-            viewHolder.mFaviconImageView=(ImageView)convertView.findViewById(R.id.item_favicon_img);
-            viewHolder.mTitleTextView=(TextView)convertView.findViewById(R.id.item_title);
-            convertView.setTag(viewHolder);
+            viewHolder.mFaviconImageView=(ImageView)view.findViewById(R.id.item_favicon_img);
+            viewHolder.mTitleTextView=(TextView)view.findViewById(R.id.item_title);
+            view.setTag(viewHolder);
         }else {
-            viewHolder=(ViewHolder)convertView.getTag();
+            viewHolder=(ViewHolder)view.getTag();
         }
 
         Picasso.with(context)
                 .load(Uri.parse(bookmarks.get(position).getBookmarkFaviconUrl()))
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.ic_bookmark)
+                .error(R.drawable.ic_bookmark)
                 .into(viewHolder.mFaviconImageView);
         viewHolder.mTitleTextView.setText(bookmarks.get(position).getBookmarkTitle());
-        return convertView;
+        return view;
     }
     private static  class ViewHolder{
         ImageView mFaviconImageView;

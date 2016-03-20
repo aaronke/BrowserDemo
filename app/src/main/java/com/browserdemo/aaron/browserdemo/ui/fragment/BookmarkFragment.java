@@ -1,29 +1,36 @@
 package com.browserdemo.aaron.browserdemo.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.browserdemo.aaron.browserdemo.R;
 import com.browserdemo.aaron.browserdemo.adapter.BookmarkGridViewAdapter;
+import com.browserdemo.aaron.browserdemo.model.Bookmark;
 
+import java.util.ArrayList;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class BookmarkFragment extends Fragment {
 
-    private OnBookmarkFragmentInteractionListener mListener;
+    @Bind(R.id.bookmark_grid)
+    GridView mBookmarkGridView;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     */
-    // TODO: Rename and change types and number of parameters
+    private OnBookmarkFragmentInteractionListener mListener;
+    private Context context;
+    private BookmarkGridViewAdapter mBookmarkGridViewAdapter;
+    private ArrayList<Bookmark> mBookmarkList;
+
     public static BookmarkFragment newInstance() {
         BookmarkFragment fragment = new BookmarkFragment();
         return fragment;
@@ -52,6 +59,17 @@ public class BookmarkFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        init();
+    }
+
+    private void init(){
+        mBookmarkList=new ArrayList<>();
+        Bookmark bookmark=new Bookmark();
+        bookmark.setBookmarkTitle("Google");
+        bookmark.setBookmarkFaviconUrl("http://www.google.com/favicon.ico");
+        mBookmarkList.add(bookmark);
+        mBookmarkGridViewAdapter=new BookmarkGridViewAdapter(mBookmarkList,context);
+        mBookmarkGridView.setAdapter(mBookmarkGridViewAdapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -64,6 +82,7 @@ public class BookmarkFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        this.context=activity;
         try {
             mListener = (OnBookmarkFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
@@ -79,6 +98,6 @@ public class BookmarkFragment extends Fragment {
     }
     public interface OnBookmarkFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onBookmarkFragmentInteraction(Uri uri);
+         void onBookmarkFragmentInteraction(Uri uri);
     }
 }
