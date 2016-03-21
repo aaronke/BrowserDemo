@@ -21,6 +21,14 @@
             android:imeOptions="actionSearch"
             android:layout_width="match_parent"
             android:layout_height="fill_parent" />
+        <CheckBox
+            android:id="@+id/favor_checkbox"
+            android:layout_centerVertical="true"
+            android:padding="2dp"
+            android:layout_alignParentRight="true"
+            style="?android:attr/starStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
    <RelativeLayout
        android:id="@+id/container"

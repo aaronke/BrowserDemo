@@ -1,13 +1,18 @@
 package com.browserdemo.aaron.browserdemo.ui;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.browserdemo.aaron.browserdemo.manager.DataManager;
+import com.browserdemo.aaron.browserdemo.model.Bookmark;
 
 /**
  * Created by Aaronke on 3/17/2016.
  */
 public class MyAppWebViewClient extends WebViewClient {
+    private static final String TAG=MyAppWebChromeClient.class.getSimpleName();
     public MyAppWebViewClient() {
         super();
     }
@@ -28,6 +33,11 @@ public class MyAppWebViewClient extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         //view.getUrl();
         super.onPageFinished(view, url);
+        Log.v(TAG, view.getOriginalUrl());
+
+        // set icon url,title, url settings only works for some websites
+        DataManager.getOurInstance().setBookmark(view.getTitle(),view.getOriginalUrl()+"favicon.ico"
+                ,view.getUrl());
     }
 
     @Override

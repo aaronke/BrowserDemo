@@ -15,14 +15,14 @@ import android.widget.TextView;
 import com.browserdemo.aaron.browserdemo.R;
 import com.browserdemo.aaron.browserdemo.adapter.BookmarkGridViewAdapter;
 import com.browserdemo.aaron.browserdemo.manager.DataManager;
+import com.browserdemo.aaron.browserdemo.manager.DatabaseManager;
 import com.browserdemo.aaron.browserdemo.model.Bookmark;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmResults;
+
 
 public class BookmarkFragment extends Fragment {
 
@@ -65,6 +65,12 @@ public class BookmarkFragment extends Fragment {
         init();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mBookmarkGridViewAdapter!=null) mBookmarkGridViewAdapter.notifyDataSetChanged();
+    }
+
     private void init(){
         dataInit();
         mBookmarkGridViewAdapter=new BookmarkGridViewAdapter(mBookmarkList,context);
@@ -74,28 +80,25 @@ public class BookmarkFragment extends Fragment {
     // only for demo,
     private void dataInit(){
         if(DataManager.getOurInstance().checkFirstRun()){
+
             // initialized some bookmarks to the database;
-            Realm realm=Realm.getInstance(context);
-            realm.beginTransaction();
-            Bookmark bookmark1=realm.createObject(Bookmark.class);
+            Bookmark bookmark1=new Bookmark();
             bookmark1.setBookmarkTitle("Facebook");
             bookmark1.setBookmarkFaviconUrl("https://www.facebook.com/favicon.ico");
-            Bookmark bookmark2=realm.createObject(Bookmark.class);
+            bookmark1.setUrl("http://www.facebook.com");
+            Bookmark bookmark2=new Bookmark();
             bookmark2.setBookmarkTitle("Twitter");
             bookmark2.setBookmarkFaviconUrl("https://twitter.com/favicon.ico");
-            realm.commitTransaction();
+            bookmark2.setUrl("https://twitter.com");
+            DatabaseManager.getOurInstance().addABookmark(bookmark1);
+            DatabaseManager.getOurInstance().addABookmark(bookmark2);
 
             DataManager.getOurInstance().setFirstRun(false);
         }else {
-
+            // do nothing here
         }
         // get the initialized bookmarks
-        Realm realm=Realm.getInstance(context);
-        RealmResults<Bookmark> realmResults=realm.where(Bookmark.class).findAll();
-        mBookmarkList=new ArrayList<>();
-        for(int i=0;realmResults!=null&&i<realmResults.size();i++){
-            mBookmarkList.add(realmResults.get(i));
-        }
+        mBookmarkList= DatabaseManager.getOurInstance().getAllBookmarks();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

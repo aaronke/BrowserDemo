@@ -2,12 +2,15 @@ package com.browserdemo.aaron.browserdemo.ui.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebIconDatabase;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -22,10 +25,9 @@ import butterknife.ButterKnife;
 
 
 public class WebViewFragment extends Fragment {
-
+    private static final String TAG=WebViewFragment.class.getSimpleName();
     @Bind(R.id.webView)
     WebView mWebView;
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private Context context;
@@ -75,7 +77,19 @@ public class WebViewFragment extends Fragment {
         WebSettings webSettings=mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new MyAppWebViewClient());
-        mWebView.setWebChromeClient(new MyAppWebChromeClient());
+        mWebView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                Log.v(TAG, newProgress+"");
+            }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                Log.v(TAG, title);
+            }
+        });
 
         goToWebsite(url);
     }
@@ -99,9 +113,7 @@ public class WebViewFragment extends Fragment {
             url="http://"+url;
         }
         if(mWebView!=null)mWebView.loadUrl(url);
-/*      Bitmap bitmap=mWebView.getFavicon();
-        mFaviconView.setVisibility(View.VISIBLE);
-        mFaviconView.setImageBitmap(bitmap);*/
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

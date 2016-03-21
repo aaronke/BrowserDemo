@@ -1,6 +1,8 @@
 package com.browserdemo.aaron.browserdemo.ui;
 
 import android.graphics.Bitmap;
+import android.nfc.Tag;
+import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
@@ -8,6 +10,7 @@ import android.webkit.WebView;
  * Created by Aaronke on 3/17/2016.
  */
 public class MyAppWebChromeClient extends WebChromeClient {
+    private static final String TAG=MyAppWebChromeClient.class.getSimpleName();
     public MyAppWebChromeClient() {
         super();
     }
@@ -30,5 +33,6 @@ public class MyAppWebChromeClient extends WebChromeClient {
     @Override
     public void onReceivedTouchIconUrl(WebView view, String url, boolean precomposed) {
         super.onReceivedTouchIconUrl(view, url, precomposed);
+        Log.v(TAG,url);
     }
 }

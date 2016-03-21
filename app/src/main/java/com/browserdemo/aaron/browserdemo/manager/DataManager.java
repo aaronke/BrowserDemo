@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.browserdemo.aaron.browserdemo.model.Bookmark;
+
 /**
  * Created by Aaronke on 3/18/2016.
  */
@@ -13,6 +15,7 @@ public class DataManager {
 
     private static DataManager ourInstance=new DataManager();
     private Context context;
+    private Bookmark mBookmark;
 
     //preferences
     private SharedPreferences sharedPreferences;
@@ -38,5 +41,16 @@ public class DataManager {
     public void setFirstRun(boolean flag){
         editor.putBoolean(FIRST_RUN,flag);
         editor.apply();
+    }
+
+    public void setBookmark(String title,String iconUrl,String url){
+        mBookmark=new Bookmark();
+        mBookmark.setBookmarkTitle(title);
+        mBookmark.setBookmarkFaviconUrl(iconUrl);
+        mBookmark.setUrl(url);
+    }
+
+    public Bookmark getBookmark(){
+        return mBookmark!=null?mBookmark:null;
     }
 }

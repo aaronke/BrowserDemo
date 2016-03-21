@@ -10,23 +10,27 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.browserdemo.aaron.browserdemo.R;
+import com.browserdemo.aaron.browserdemo.manager.DataManager;
+import com.browserdemo.aaron.browserdemo.manager.DatabaseManager;
+import com.browserdemo.aaron.browserdemo.model.Bookmark;
 import com.browserdemo.aaron.browserdemo.ui.fragment.BookmarkFragment;
 import com.browserdemo.aaron.browserdemo.ui.fragment.WebViewFragment;
 import com.browserdemo.aaron.browserdemo.util.IdTagUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnEditorAction;
 
 public class MainActivity extends AppCompatActivity implements WebViewFragment.OnWebViewFragmentInteractionListener,
         BookmarkFragment.OnBookmarkFragmentInteractionListener {
 
     private static String TAG= MainActivity.class.getSimpleName();
-
     @Bind(R.id.address_bar)
     EditText mAddressBar;
     @Bind(R.id.web_favicon)
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
     }
 
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
         }
         return super.onOptionsItemSelected(item);
     }
-
+*/
     @Override
     public void onBackPressed() {
         Fragment webView = fragmentManager.findFragmentByTag(IdTagUtil.WEBVIEW_FRAGMENT_TAG);
@@ -103,6 +107,21 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
         return false;
     }
 
+    @OnCheckedChanged(R.id.favor_checkbox)
+    public void favorCurrentSite(boolean checked){
+
+        // set current website to be a bookmark, update database, UI
+        Bookmark tempBookmark=DataManager.getOurInstance().getBookmark();
+        if (checked){
+            if (tempBookmark!=null){
+                DatabaseManager.getOurInstance().addABookmark(tempBookmark);
+            }
+        }else{
+            if (tempBookmark!=null){
+                DatabaseManager.getOurInstance().removeBookmark(tempBookmark);
+            }
+        }
+    }
     // webView fragment callback
     @Override
     public void onFragmentInteraction(Uri uri) {
