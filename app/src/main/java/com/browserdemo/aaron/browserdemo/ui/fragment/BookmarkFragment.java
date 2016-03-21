@@ -65,11 +65,6 @@ public class BookmarkFragment extends Fragment {
         init();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mBookmarkGridViewAdapter!=null) mBookmarkGridViewAdapter.notifyDataSetChanged();
-    }
 
     private void init(){
         dataInit();
@@ -99,6 +94,14 @@ public class BookmarkFragment extends Fragment {
         }
         // get the initialized bookmarks
         mBookmarkList= DatabaseManager.getOurInstance().getAllBookmarks();
+    }
+
+    public void updateUI(){
+        if (mBookmarkGridViewAdapter!=null) {
+            mBookmarkList.clear();
+            mBookmarkList.addAll(DatabaseManager.getOurInstance().getAllBookmarks());
+            mBookmarkGridViewAdapter.notifyDataSetChanged();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -33,11 +33,13 @@ public class MyAppWebViewClient extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         //view.getUrl();
         super.onPageFinished(view, url);
-        Log.v(TAG, view.getOriginalUrl());
+        if (view!=null){
+            Log.v(TAG, view.getOriginalUrl());
+            // set icon url,title, url settings only works for some websites
+            DataManager.getOurInstance().setBookmark(view.getTitle(),view.getOriginalUrl()+"favicon.ico"
+                    ,view.getUrl());
+        }
 
-        // set icon url,title, url settings only works for some websites
-        DataManager.getOurInstance().setBookmark(view.getTitle(),view.getOriginalUrl()+"favicon.ico"
-                ,view.getUrl());
     }
 
     @Override

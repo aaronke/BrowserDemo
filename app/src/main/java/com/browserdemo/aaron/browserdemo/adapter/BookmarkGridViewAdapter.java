@@ -73,4 +73,10 @@ public class BookmarkGridViewAdapter extends BaseAdapter {
         ImageView mFaviconImageView;
         TextView mTitleTextView;
     }
+
+    @Override
+    public void notifyDataSetChanged() {
+
+        super.notifyDataSetChanged();
+    }
 }

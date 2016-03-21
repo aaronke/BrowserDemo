@@ -3,6 +3,8 @@ package com.browserdemo.aaron.browserdemo.manager;
 import android.content.Context;
 
 import com.browserdemo.aaron.browserdemo.model.Bookmark;
+import com.browserdemo.aaron.browserdemo.realm.RBookmark;
+import com.browserdemo.aaron.browserdemo.realm.RealmConvert;
 
 import java.util.ArrayList;
 import io.realm.Realm;
@@ -21,25 +23,35 @@ public class DatabaseManager {
     public void init(Context context){
         this.context=context;
     }
+
     public ArrayList<Bookmark> getAllBookmarks(){
         ArrayList<Bookmark> mBookmarkList=new ArrayList<>();
         Realm realm=Realm.getInstance(context);
-        RealmResults<Bookmark> realmResults=realm.where(Bookmark.class).findAll();
-        for(int i=0;realmResults!=null&&i<realmResults.size();i++){
-            mBookmarkList.add(realmResults.get(i));
-        }
-        //realm.close();
+        RealmResults<RBookmark> realmResults=realm.where(RBookmark.class).findAll();
+        mBookmarkList= RealmConvert.convertRBookmarkToBookmark(realmResults);
+        realm.close();
         return  mBookmarkList;
     }
 
     public void addABookmark(Bookmark bookmark){
         Realm realm=Realm.getInstance(context);
         realm.beginTransaction();
-        realm.copyToRealm(bookmark);
+        RBookmark rBookmark=realm.createObject(RBookmark.class);
+        rBookmark.setUrl(bookmark.getUrl());
+        rBookmark.setIconUrl(bookmark.getBookmarkFaviconUrl());
+        rBookmark.setTitle(bookmark.getBookmarkTitle());
         realm.commitTransaction();
+        realm.close();
 
     }
     public void removeBookmark(Bookmark bookmark){
-            bookmark.removeFromRealm();
+        Realm realm=Realm.getInstance(context);
+
+        // better to store all database columns in another class
+        RealmResults<RBookmark> realmResults=realm.where(RBookmark.class).equalTo("url",bookmark.getUrl()).findAll();
+        realm.beginTransaction();
+        realmResults.clear();
+        realm.commitTransaction();
+        realm.close();
     }
 }

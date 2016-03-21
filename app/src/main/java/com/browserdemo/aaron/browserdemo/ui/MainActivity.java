@@ -121,6 +121,9 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
                 DatabaseManager.getOurInstance().removeBookmark(tempBookmark);
             }
         }
+        if (bookmarkFragment!=null){
+            bookmarkFragment.updateUI();
+        }
     }
     // webView fragment callback
     @Override
