@@ -1,3 +1,5 @@
+package com.browserdemo.aaron.browserdemo;
+
 import android.app.Application;
 
 import com.browserdemo.aaron.browserdemo.manager.DataManager;

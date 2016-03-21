@@ -2,6 +2,7 @@ package com.browserdemo.aaron.browserdemo.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Created by Aaronke on 3/18/2016.
@@ -27,6 +28,15 @@ public class DataManager {
 
         sharedPreferences=context.getSharedPreferences(DATA_MANAGER,Context.MODE_PRIVATE);
         editor=sharedPreferences.edit();
+        Log.v(TAG,"init finished");
 
+    }
+
+    public boolean checkFirstRun(){
+        return sharedPreferences.getBoolean(FIRST_RUN,true);
+    }
+    public void setFirstRun(boolean flag){
+        editor.putBoolean(FIRST_RUN,flag);
+        editor.apply();
     }
 }

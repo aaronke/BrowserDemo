@@ -14,12 +14,15 @@ import android.widget.TextView;
 
 import com.browserdemo.aaron.browserdemo.R;
 import com.browserdemo.aaron.browserdemo.adapter.BookmarkGridViewAdapter;
+import com.browserdemo.aaron.browserdemo.manager.DataManager;
 import com.browserdemo.aaron.browserdemo.model.Bookmark;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class BookmarkFragment extends Fragment {
 
@@ -63,13 +66,36 @@ public class BookmarkFragment extends Fragment {
     }
 
     private void init(){
-        mBookmarkList=new ArrayList<>();
-        Bookmark bookmark=new Bookmark();
-        bookmark.setBookmarkTitle("Google");
-        bookmark.setBookmarkFaviconUrl("http://www.google.com/favicon.ico");
-        mBookmarkList.add(bookmark);
+        dataInit();
         mBookmarkGridViewAdapter=new BookmarkGridViewAdapter(mBookmarkList,context);
         mBookmarkGridView.setAdapter(mBookmarkGridViewAdapter);
+    }
+
+    // only for demo,
+    private void dataInit(){
+        if(DataManager.getOurInstance().checkFirstRun()){
+            // initialized some bookmarks to the database;
+            Realm realm=Realm.getInstance(context);
+            realm.beginTransaction();
+            Bookmark bookmark1=realm.createObject(Bookmark.class);
+            bookmark1.setBookmarkTitle("Facebook");
+            bookmark1.setBookmarkFaviconUrl("https://www.facebook.com/favicon.ico");
+            Bookmark bookmark2=realm.createObject(Bookmark.class);
+            bookmark2.setBookmarkTitle("Twitter");
+            bookmark2.setBookmarkFaviconUrl("https://twitter.com/favicon.ico");
+            realm.commitTransaction();
+
+            DataManager.getOurInstance().setFirstRun(false);
+        }else {
+
+        }
+        // get the initialized bookmarks
+        Realm realm=Realm.getInstance(context);
+        RealmResults<Bookmark> realmResults=realm.where(Bookmark.class).findAll();
+        mBookmarkList=new ArrayList<>();
+        for(int i=0;realmResults!=null&&i<realmResults.size();i++){
+            mBookmarkList.add(realmResults.get(i));
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
