@@ -10,6 +10,7 @@ public class RBookmark extends RealmObject {
 
     @PrimaryKey
     private String url;
+
     private String iconUrl;
     private String title;
 

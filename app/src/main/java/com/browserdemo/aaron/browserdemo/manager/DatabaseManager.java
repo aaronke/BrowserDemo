@@ -1,6 +1,7 @@
 package com.browserdemo.aaron.browserdemo.manager;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.browserdemo.aaron.browserdemo.model.Bookmark;
 import com.browserdemo.aaron.browserdemo.realm.RBookmark;
@@ -14,6 +15,7 @@ import io.realm.RealmResults;
  * Created by Aaronke on 3/20/2016.
  */
 public class DatabaseManager {
+    private static final String TAG=DatabaseManager.class.getSimpleName();
     private Context context;
     private static DatabaseManager ourInstance=new DatabaseManager();
     public static DatabaseManager getOurInstance(){
@@ -36,10 +38,16 @@ public class DatabaseManager {
     public void addABookmark(Bookmark bookmark){
         Realm realm=Realm.getInstance(context);
         realm.beginTransaction();
-        RBookmark rBookmark=realm.createObject(RBookmark.class);
-        rBookmark.setUrl(bookmark.getUrl());
-        rBookmark.setIconUrl(bookmark.getBookmarkFaviconUrl());
-        rBookmark.setTitle(bookmark.getBookmarkTitle());
+        Log.v(TAG,bookmark.getUrl());
+        RealmResults<RBookmark> realmResults=realm.where(RBookmark.class).equalTo("url",bookmark.getUrl()).findAll();
+        if (realmResults!=null && realmResults.size()>0){
+
+        }else {
+            RBookmark rBookmark = realm.createObject(RBookmark.class);
+            rBookmark.setUrl(bookmark.getUrl());
+            rBookmark.setIconUrl(bookmark.getBookmarkFaviconUrl());
+            rBookmark.setTitle(bookmark.getBookmarkTitle());
+        }
         realm.commitTransaction();
         realm.close();
 

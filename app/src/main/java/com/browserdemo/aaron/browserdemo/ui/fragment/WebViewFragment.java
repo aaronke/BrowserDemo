@@ -89,6 +89,13 @@ public class WebViewFragment extends Fragment {
                 super.onReceivedTitle(view, title);
                 Log.v(TAG, title);
             }
+
+            @Override
+            public void onReceivedIcon(WebView view, Bitmap icon) {
+                super.onReceivedIcon(view, icon);
+                
+                Log.v(TAG,icon.toString());
+            }
         });
 
         goToWebsite(url);
