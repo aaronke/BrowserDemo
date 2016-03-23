@@ -9,9 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.browserdemo.aaron.browserdemo.R;
 import com.browserdemo.aaron.browserdemo.adapter.BookmarkGridViewAdapter;
 import com.browserdemo.aaron.browserdemo.manager.DataManager;
@@ -22,6 +19,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 
 
 public class BookmarkFragment extends Fragment {
@@ -105,7 +103,7 @@ public class BookmarkFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onBookmarkPressed(String uri) {
         if (mListener != null) {
             mListener.onBookmarkFragmentInteraction(uri);
         }
@@ -130,6 +128,10 @@ public class BookmarkFragment extends Fragment {
     }
     public interface OnBookmarkFragmentInteractionListener {
         // TODO: Update argument type and name
-         void onBookmarkFragmentInteraction(Uri uri);
+         void onBookmarkFragmentInteraction(String uri);
+    }
+    @OnItemClick(R.id.bookmark_grid)
+    public void onItemClick(int position){
+        onBookmarkPressed(mBookmarkList.get(position).getUrl());
     }
 }

@@ -93,18 +93,20 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
     @OnEditorAction(R.id.address_bar)
     public boolean onEditorAction(int actionId, KeyEvent key) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            String url = mAddressBar.getText().toString();
-            if (webViewFragment != null && webViewFragment.isAdded()) {
-                webViewFragment.setWebViewUrl(url);
-            } else {
-                webViewFragment = WebViewFragment.newInstance(url);
-                fragmentManager.beginTransaction().add(R.id.container, webViewFragment, IdTagUtil.WEBVIEW_FRAGMENT_TAG)
-                        .addToBackStack(null).commit();
-            }
-
+            renderWebContent(mAddressBar.getText().toString());
             return true;
         }
         return false;
+    }
+
+    private void renderWebContent(String url){
+        if (webViewFragment != null && webViewFragment.isAdded()) {
+            webViewFragment.setWebViewUrl(url);
+        } else {
+            webViewFragment = WebViewFragment.newInstance(url);
+            fragmentManager.beginTransaction().add(R.id.container, webViewFragment, IdTagUtil.WEBVIEW_FRAGMENT_TAG)
+                    .addToBackStack(null).commit();
+        }
     }
 
     @OnCheckedChanged(R.id.favor_checkbox)
@@ -133,7 +135,8 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
 
     // bookmark fragment callback
     @Override
-    public void onBookmarkFragmentInteraction(Uri uri) {
-
+    public void onBookmarkFragmentInteraction(String uri) {
+        // render the content of the url
+        renderWebContent(uri);
     }
 }

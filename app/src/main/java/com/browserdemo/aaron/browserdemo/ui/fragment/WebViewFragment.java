@@ -93,7 +93,7 @@ public class WebViewFragment extends Fragment {
             @Override
             public void onReceivedIcon(WebView view, Bitmap icon) {
                 super.onReceivedIcon(view, icon);
-                
+
                 Log.v(TAG,icon.toString());
             }
         });
