@@ -82,18 +82,19 @@ public class WebViewFragment extends Fragment {
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
                 Log.v(TAG, newProgress+"");
+                onProgressBarUpdate(newProgress);
             }
 
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
                 Log.v(TAG, title);
+                onUpdateBarUI(view.getUrl());
             }
 
             @Override
             public void onReceivedIcon(WebView view, Bitmap icon) {
                 super.onReceivedIcon(view, icon);
-
                 Log.v(TAG,icon.toString());
             }
         });
@@ -123,10 +124,13 @@ public class WebViewFragment extends Fragment {
 
     }
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onUpdateBarUI(String uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onWebViewFragmentInteraction(uri);
         }
+    }
+    public void onProgressBarUpdate(int progress){
+        if (mListener!=null)mListener.updateProgressBar(progress);
     }
 
     @Override
@@ -159,7 +163,8 @@ public class WebViewFragment extends Fragment {
      */
     public interface OnWebViewFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+         void onWebViewFragmentInteraction(String uri);
+         void updateProgressBar(int progress);
     }
 
 }

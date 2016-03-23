@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
     EditText mAddressBar;
     @Bind(R.id.web_favicon)
     ImageView mFaviconView;
+    @Bind(R.id.favor_checkbox)
+    CheckBox mFavorCheckBox;
 
     private FragmentManager fragmentManager;
     private WebViewFragment webViewFragment;
@@ -55,8 +58,7 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
     private void init() {
         fragmentManager = getSupportFragmentManager();
         bookmarkFragment = BookmarkFragment.newInstance();
-        fragmentManager.beginTransaction().add(R.id.container, bookmarkFragment)
-                .addToBackStack(null).commit();
+        fragmentManager.beginTransaction().add(R.id.container, bookmarkFragment).commit();
     }
 
 
@@ -86,10 +88,16 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
         Fragment webView = fragmentManager.findFragmentByTag(IdTagUtil.WEBVIEW_FRAGMENT_TAG);
         if (webView instanceof WebViewFragment) {
             boolean goBack = ((WebViewFragment) webView).goBack();
-            if (!goBack) super.onBackPressed();
-        }
+            if (!goBack) {
+                super.onBackPressed();
+                initUI();
+            }
+        }else super.onBackPressed();
     }
-
+    private void initUI(){
+        mFavorCheckBox.setVisibility(View.GONE);
+        mAddressBar.setText("");
+    }
     @OnEditorAction(R.id.address_bar)
     public boolean onEditorAction(int actionId, KeyEvent key) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -129,8 +137,13 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
     }
     // webView fragment callback
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onWebViewFragmentInteraction(String uri) {
+        mAddressBar.setText(uri);
+    }
 
+    @Override
+    public void updateProgressBar(int progress) {
+        if (progress==100)mFavorCheckBox.setVisibility(View.VISIBLE);
     }
 
     // bookmark fragment callback
