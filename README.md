@@ -13,7 +13,7 @@ Key point is to load the images and JS(which cost most the time when loading a w
 1.beofre loading url:  
   mWebView.getSettings().setJavaScriptEnabled(false);  
   mWebView.getSettings().setBlockNetworkImage(true);  
-2. after onPageFinished and onReceivedTitle  
+2. after onPageFinished  
   view.getSettings().setBlockNetworkImage(false);  
   view.getSettings().setJavaScriptEnabled(true);  
   
