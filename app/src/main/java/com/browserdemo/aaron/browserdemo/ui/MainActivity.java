@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
     private void initUI(){
         mFavorCheckBox.setVisibility(View.GONE);
         mAddressBar.setText("");
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
     @OnEditorAction(R.id.address_bar)
     public boolean onEditorAction(int actionId, KeyEvent key) {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -19,6 +20,8 @@ import com.browserdemo.aaron.browserdemo.R;
 import com.browserdemo.aaron.browserdemo.ui.MyAppWebChromeClient;
 import com.browserdemo.aaron.browserdemo.ui.MyAppWebViewClient;
 import com.browserdemo.aaron.browserdemo.helper.StorageHelper;
+
+import java.lang.reflect.Method;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -72,12 +75,24 @@ public class WebViewFragment extends Fragment {
     }
 
     private void init(){
-        WebIconDatabase.getInstance().open(StorageHelper.getDirs(context.getCacheDir().getAbsolutePath() + "/icons/"));
+        //WebIconDatabase.getInstance().open(StorageHelper.getDirs(context.getCacheDir().getAbsolutePath() + "/icons/"));
 
         WebSettings webSettings=mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setAppCacheEnabled(true);
+        webSettings.setDatabaseEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        //webSettings.setLoadWithOverviewMode(true);
+        //webSettings.setUseWideViewPort(true);
+        /*mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        if (Build.VERSION.SDK_INT >= 19) {
+            mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        } else if (Build.VERSION.SDK_INT>=11){
+            mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }*/
         mWebView.setWebViewClient(new MyAppWebViewClient());
-        mWebView.setWebChromeClient(new WebChromeClient(){
+        mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
@@ -91,7 +106,7 @@ public class WebViewFragment extends Fragment {
                 super.onReceivedTitle(view, title);
                 Log.v(TAG, title);
 
-                onUpdateBarUI(view.getUrl(),view.getOriginalUrl());
+                onUpdateBarUI(view.getUrl(), view.getOriginalUrl());
             }
 
             @Override
@@ -100,7 +115,6 @@ public class WebViewFragment extends Fragment {
                 Log.v(TAG,icon.toString());
             }
         });
-
         goToWebsite(url);
     }
 
@@ -122,7 +136,16 @@ public class WebViewFragment extends Fragment {
         if (!url.startsWith("http://")&&!url.startsWith("https://")){
             url="http://"+url;
         }
-        if(mWebView!=null)mWebView.loadUrl(url);
+        if(mWebView!=null) {
+            try {
+                mWebView.clearFormData();
+                mWebView.clearHistory();
+                mWebView.clearCache(true);
+                mWebView.loadUrl(url);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -150,7 +173,17 @@ public class WebViewFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mWebView!=null) mWebView=null;
+        if (mWebView!=null) mWebView.destroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mWebView!=null){
+            mWebView.stopLoading();
+            mWebView.onPause();
+            mWebView.pauseTimers();
+        }
     }
 
     @Override
