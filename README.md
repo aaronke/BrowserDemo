@@ -8,8 +8,8 @@ This is a browser demo,
 
 # How to use it
 1. input address(no need to care about 'http','www', you can ignore the them, just input such as 'google.com'), then enter search in keyboard.
-2. when the website is loaded, just can check the start on the address bar to Mark current website, or cancel the mark of current website.
-3. All the bookmarks are show in the bookmark page, click any bookmark will leading you to the page, long click will let you to delete the bookmark.  
+2. when the website is loaded, you can check the star on the address bar to Mark current website, or cancel the mark of current website.
+3. All the bookmarks are shown in the bookmark page, click any bookmark will leading you to the page, long click will let you to delete the bookmark.  
 
 #used libraies 
 1. Realm  
