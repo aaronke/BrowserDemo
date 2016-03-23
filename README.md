@@ -8,4 +8,14 @@ This is a browser demo,
 2. Picasso  
 3. butterkniffe
 
+# Improve performance of Webview
+Key point is to load the images and JS(which cost most the time when loading a website) after page loaded.  
+1.beofre loading url:  
+  mWebView.getSettings().setJavaScriptEnabled(false);  
+  mWebView.getSettings().setBlockNetworkImage(true);  
+2. after onPageFinished and onReceivedTitle  
+  view.getSettings().setBlockNetworkImage(false);  
+  view.getSettings().setJavaScriptEnabled(true);  
+  
+
 
