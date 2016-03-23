@@ -142,13 +142,16 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
     }
     // webView fragment callback
     @Override
-    public void onWebViewFragmentInteraction(String uri) {
-        mAddressBar.setText(uri);
+    public void onWebViewFragmentInteraction(String url,String originalUrl) {
+        if (DatabaseManager.getOurInstance().checkIfExist(originalUrl))
+            mFavorCheckBox.setChecked(true);
+        mAddressBar.setText(url);
     }
 
     @Override
     public void updateProgressBar(int progress) {
         if (progress==100) {
+
             mFavorCheckBox.setVisibility(View.VISIBLE);
             mProgressBar.setVisibility(View.INVISIBLE);
         }else {

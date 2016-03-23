@@ -27,14 +27,21 @@ public class DatabaseManager {
     }
 
     public ArrayList<Bookmark> getAllBookmarks(){
-        ArrayList<Bookmark> mBookmarkList=new ArrayList<>();
+        ArrayList<Bookmark> mBookmarkList;
         Realm realm=Realm.getInstance(context);
         RealmResults<RBookmark> realmResults=realm.where(RBookmark.class).findAll();
         mBookmarkList= RealmConvert.convertRBookmarkToBookmark(realmResults);
         realm.close();
         return  mBookmarkList;
     }
+    public boolean checkIfExist(String url){
+        Realm realm=Realm.getInstance(context);
+        RealmResults<RBookmark> realmResults=realm.where(RBookmark.class).equalTo("url",url).findAll();
+        if (realmResults!=null && realmResults.size()>0) return true;
+        realm.close();
+        return false;
 
+    }
     public void addABookmark(Bookmark bookmark){
         Realm realm=Realm.getInstance(context);
         realm.beginTransaction();
