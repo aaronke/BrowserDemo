@@ -12,7 +12,7 @@ import com.browserdemo.aaron.browserdemo.model.Bookmark;
  * Created by Aaronke on 3/17/2016.
  */
 public class MyAppWebViewClient extends WebViewClient {
-    private static final String TAG=MyAppWebChromeClient.class.getSimpleName();
+    private static final String TAG=MyAppWebViewClient.class.getSimpleName();
     public MyAppWebViewClient() {
         super();
     }
@@ -32,21 +32,22 @@ public class MyAppWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
         //view.getUrl();
-        super.onPageFinished(view, url);
         if (view!=null){
             view.getSettings().setBlockNetworkImage(false);
             view.getSettings().setJavaScriptEnabled(true);
-        //    Log.v(TAG, view.getTitle());
+            Log.v(TAG, view.getTitle()+"");
             // set icon url,title, url settings only works for some websites
             DataManager.getOurInstance().setBookmark(view.getTitle(),view.getOriginalUrl()+"favicon.ico"
                     ,view.getOriginalUrl());
         }
+        super.onPageFinished(view, url);
 
     }
 
     @Override
     public void onLoadResource(WebView view, String url) {
         super.onLoadResource(view, url);
+
     }
 
     @Override

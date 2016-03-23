@@ -83,8 +83,13 @@ public class BookmarkFragment extends Fragment {
             bookmark2.setBookmarkTitle("Twitter");
             bookmark2.setBookmarkFaviconUrl("https://twitter.com/favicon.ico");
             bookmark2.setUrl("https://mobile.twitter.com/");
+            Bookmark bookmark3=new Bookmark();
+            bookmark3.setBookmarkTitle("Teradici");
+            bookmark3.setBookmarkFaviconUrl("http://teradici.com/favicon.ico");
+            bookmark3.setUrl("http://www.teradici.com/");
             DatabaseManager.getOurInstance().addABookmark(bookmark1);
             DatabaseManager.getOurInstance().addABookmark(bookmark2);
+            DatabaseManager.getOurInstance().addABookmark(bookmark3);
 
             DataManager.getOurInstance().setFirstRun(false);
         }else {

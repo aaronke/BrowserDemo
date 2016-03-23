@@ -86,12 +86,11 @@ public class WebViewFragment extends Fragment {
         webSettings.setAppCacheEnabled(true);
         webSettings.setDatabaseEnabled(true);
         webSettings.setDomStorageEnabled(true);
-        webSettings.setSupportZoom(false);
+        webSettings.setSupportZoom(true);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        //webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        webSettings.setUserAgentString(webSettings.getUserAgentString() + "demo app");
         webSettings.setAllowFileAccess(true);
         webSettings.setUseWideViewPort(true);
         webSettings.setSaveFormData(true);
@@ -116,8 +115,7 @@ public class WebViewFragment extends Fragment {
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
                 Log.v(TAG, title);
-                view.getSettings().setBlockNetworkImage(false);
-                view.getSettings().setJavaScriptEnabled(true);
+
                 onUpdateBarUI(view.getUrl(), view.getOriginalUrl());
             }
 
@@ -127,6 +125,7 @@ public class WebViewFragment extends Fragment {
                 Log.v(TAG, icon.toString());
             }
         });
+
         goToWebsite(url);
 
     }
@@ -154,6 +153,7 @@ public class WebViewFragment extends Fragment {
                 // loading js and image after loading page finished
                 mWebView.getSettings().setJavaScriptEnabled(false);
                 mWebView.getSettings().setBlockNetworkImage(true);
+
                 mWebView.loadUrl(url);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -192,11 +192,7 @@ public class WebViewFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (mWebView!=null){
-            mWebView.stopLoading();
-            mWebView.onPause();
-            mWebView.pauseTimers();
-        }
+
     }
 
     @Override
