@@ -94,20 +94,26 @@ public class WebViewFragment extends Fragment {
         webSettings.setAllowFileAccess(true);
         webSettings.setUseWideViewPort(true);
         webSettings.setSaveFormData(true);
+        webSettings.setSupportMultipleWindows(true);
         webSettings.setEnableSmoothTransition(true);
 
-        if (Build.VERSION.SDK_INT >= 19) {
+        // in order to support video play, hardware acceleration needed
+
+       /* if (Build.VERSION.SDK_INT >= 19) {
             mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         } else if (Build.VERSION.SDK_INT>=11){
             mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
+        }*/
+
+        mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         mWebView.setWebViewClient(new MyAppWebViewClient());
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
                 Log.v(TAG, newProgress + "");
-
+                view.getSettings().setBlockNetworkImage(false);
+                view.getSettings().setJavaScriptEnabled(true);
                 onProgressBarUpdate(newProgress);
             }
 
