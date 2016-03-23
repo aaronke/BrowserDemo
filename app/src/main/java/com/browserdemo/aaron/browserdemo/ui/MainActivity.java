@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.browserdemo.aaron.browserdemo.R;
 import com.browserdemo.aaron.browserdemo.manager.DataManager;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
     ImageView mFaviconView;
     @Bind(R.id.favor_checkbox)
     CheckBox mFavorCheckBox;
+    @Bind(R.id.progressbar)
+    ProgressBar mProgressBar;
 
     private FragmentManager fragmentManager;
     private WebViewFragment webViewFragment;
@@ -59,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
         fragmentManager = getSupportFragmentManager();
         bookmarkFragment = BookmarkFragment.newInstance();
         fragmentManager.beginTransaction().add(R.id.container, bookmarkFragment).commit();
+
+        mProgressBar.setMax(100);
     }
 
 
@@ -143,7 +148,14 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
 
     @Override
     public void updateProgressBar(int progress) {
-        if (progress==100)mFavorCheckBox.setVisibility(View.VISIBLE);
+        if (progress==100) {
+            mFavorCheckBox.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.INVISIBLE);
+        }else {
+            if (mProgressBar.getVisibility() == View.INVISIBLE)
+                mProgressBar.setVisibility(View.VISIBLE);
+            mProgressBar.setProgress(progress);
+        }
     }
 
     // bookmark fragment callback
