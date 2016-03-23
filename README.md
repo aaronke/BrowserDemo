@@ -24,6 +24,11 @@ Key point is to load the images and JS(which cost most the time when loading a w
 2. after onPageFinished  
   view.getSettings().setBlockNetworkImage(false);  
   view.getSettings().setJavaScriptEnabled(true);  
-  
+ 
+#Bookmark page
+![alt tag](https://github.com/aaronke/BrowserDemo/blob/master/Screenshot_2016-03-23-16-22-35.png)
+
+#Webpage
+![alt tag](https://github.com/aaronke/BrowserDemo/blob/master/Screenshot_2016-03-23-16-22-48.png)
 
 
