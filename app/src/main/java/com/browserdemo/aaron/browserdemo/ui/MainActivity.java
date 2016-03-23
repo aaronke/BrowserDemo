@@ -1,5 +1,6 @@
 package com.browserdemo.aaron.browserdemo.ui;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -108,8 +110,12 @@ public class MainActivity extends AppCompatActivity implements WebViewFragment.O
     public boolean onEditorAction(int actionId, KeyEvent key) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             renderWebContent(mAddressBar.getText().toString());
+            mAddressBar.clearFocus();
+            InputMethodManager in = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(mAddressBar.getWindowToken(), 0);
             return true;
         }
+
         return false;
     }
 

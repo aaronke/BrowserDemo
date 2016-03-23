@@ -76,13 +76,13 @@ public class BookmarkFragment extends Fragment {
 
             // initialized some bookmarks to the database;
             Bookmark bookmark1=new Bookmark();
-            bookmark1.setBookmarkTitle("Facebook");
-            bookmark1.setBookmarkFaviconUrl("https://www.facebook.com/favicon.ico");
-            bookmark1.setUrl("https://www.facebook.com");
+            bookmark1.setBookmarkTitle("GitHub");
+            bookmark1.setBookmarkFaviconUrl("https://github.com/favicon.ico");
+            bookmark1.setUrl("https://www.github.com/aaronke/BrowserDemo");
             Bookmark bookmark2=new Bookmark();
             bookmark2.setBookmarkTitle("Twitter");
             bookmark2.setBookmarkFaviconUrl("https://twitter.com/favicon.ico");
-            bookmark2.setUrl("https://mobile.twitter.com");
+            bookmark2.setUrl("https://mobile.twitter.com/");
             DatabaseManager.getOurInstance().addABookmark(bookmark1);
             DatabaseManager.getOurInstance().addABookmark(bookmark2);
 

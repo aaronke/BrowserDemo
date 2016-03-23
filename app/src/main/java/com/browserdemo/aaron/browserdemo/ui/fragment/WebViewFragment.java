@@ -78,19 +78,30 @@ public class WebViewFragment extends Fragment {
         //WebIconDatabase.getInstance().open(StorageHelper.getDirs(context.getCacheDir().getAbsolutePath() + "/icons/"));
 
         WebSettings webSettings=mWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+        webSettings.setLoadsImagesAutomatically(true);
+        //webSettings.setJavaScriptEnabled(false);
+        // improve performance
+       // webSettings.setBlockNetworkImage(true);
+
         webSettings.setAppCacheEnabled(true);
         webSettings.setDatabaseEnabled(true);
         webSettings.setDomStorageEnabled(true);
-        //webSettings.setLoadWithOverviewMode(true);
-        //webSettings.setUseWideViewPort(true);
-        /*mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setSupportZoom(false);
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        webSettings.setUserAgentString(webSettings.getUserAgentString() + "demo app");
+        webSettings.setAllowFileAccess(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setSaveFormData(true);
+        webSettings.setEnableSmoothTransition(true);
 
         if (Build.VERSION.SDK_INT >= 19) {
             mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         } else if (Build.VERSION.SDK_INT>=11){
             mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }*/
+        }
         mWebView.setWebViewClient(new MyAppWebViewClient());
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -105,17 +116,19 @@ public class WebViewFragment extends Fragment {
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
                 Log.v(TAG, title);
-
+                view.getSettings().setBlockNetworkImage(false);
+                view.getSettings().setJavaScriptEnabled(true);
                 onUpdateBarUI(view.getUrl(), view.getOriginalUrl());
             }
 
             @Override
             public void onReceivedIcon(WebView view, Bitmap icon) {
                 super.onReceivedIcon(view, icon);
-                Log.v(TAG,icon.toString());
+                Log.v(TAG, icon.toString());
             }
         });
         goToWebsite(url);
+
     }
 
     public boolean goBack(){
@@ -138,9 +151,9 @@ public class WebViewFragment extends Fragment {
         }
         if(mWebView!=null) {
             try {
-                mWebView.clearFormData();
-                mWebView.clearHistory();
-                mWebView.clearCache(true);
+                // loading js and image after loading page finished
+                mWebView.getSettings().setJavaScriptEnabled(false);
+                mWebView.getSettings().setBlockNetworkImage(true);
                 mWebView.loadUrl(url);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -44,29 +44,36 @@ public class DatabaseManager {
     }
     public void addABookmark(Bookmark bookmark){
         Realm realm=Realm.getInstance(context);
-        realm.beginTransaction();
-        Log.v(TAG,bookmark.getUrl());
-        RealmResults<RBookmark> realmResults=realm.where(RBookmark.class).equalTo("url",bookmark.getUrl()).findAll();
-        if (realmResults!=null && realmResults.size()>0){
+        try {
+            realm.beginTransaction();
+            RealmResults<RBookmark> realmResults = realm.where(RBookmark.class).equalTo("url", bookmark.getUrl()).findAll();
+            if (realmResults != null && realmResults.size() > 0) {
 
-        }else {
-            RBookmark rBookmark = realm.createObject(RBookmark.class);
-            rBookmark.setUrl(bookmark.getUrl());
-            rBookmark.setIconUrl(bookmark.getBookmarkFaviconUrl());
-            rBookmark.setTitle(bookmark.getBookmarkTitle());
+            } else {
+                RBookmark rBookmark = realm.createObject(RBookmark.class);
+                rBookmark.setUrl(bookmark.getUrl());
+                rBookmark.setIconUrl(bookmark.getBookmarkFaviconUrl());
+                rBookmark.setTitle(bookmark.getBookmarkTitle());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         realm.commitTransaction();
         realm.close();
 
     }
     public void removeBookmark(Bookmark bookmark){
-        Realm realm=Realm.getInstance(context);
 
+        Realm realm=Realm.getInstance(context);
         // better to store all database columns in another class
-        RealmResults<RBookmark> realmResults=realm.where(RBookmark.class).equalTo("url",bookmark.getUrl()).findAll();
-        realm.beginTransaction();
-        realmResults.clear();
-        realm.commitTransaction();
+        try {
+            RealmResults<RBookmark> realmResults = realm.where(RBookmark.class).equalTo("url", bookmark.getUrl()).findAll();
+            realm.beginTransaction();
+            realmResults.clear();
+            realm.commitTransaction();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         realm.close();
     }
 }

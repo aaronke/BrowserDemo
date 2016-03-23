@@ -34,6 +34,8 @@ public class MyAppWebViewClient extends WebViewClient {
         //view.getUrl();
         super.onPageFinished(view, url);
         if (view!=null){
+            view.getSettings().setBlockNetworkImage(false);
+            view.getSettings().setJavaScriptEnabled(true);
         //    Log.v(TAG, view.getTitle());
             // set icon url,title, url settings only works for some websites
             DataManager.getOurInstance().setBookmark(view.getTitle(),view.getOriginalUrl()+"favicon.ico"
