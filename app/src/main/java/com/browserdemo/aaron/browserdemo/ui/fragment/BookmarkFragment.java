@@ -2,6 +2,7 @@ package com.browserdemo.aaron.browserdemo.ui.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import com.browserdemo.aaron.browserdemo.R;
 import com.browserdemo.aaron.browserdemo.adapter.BookmarkGridViewAdapter;
+import com.browserdemo.aaron.browserdemo.helper.DialogHelper;
 import com.browserdemo.aaron.browserdemo.manager.DataManager;
 import com.browserdemo.aaron.browserdemo.manager.DatabaseManager;
 import com.browserdemo.aaron.browserdemo.model.Bookmark;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
+import butterknife.OnItemLongClick;
 
 
 public class BookmarkFragment extends Fragment {
@@ -133,5 +136,16 @@ public class BookmarkFragment extends Fragment {
     @OnItemClick(R.id.bookmark_grid)
     public void onItemClick(int position){
         onBookmarkPressed(mBookmarkList.get(position).getUrl());
+    }
+    @OnItemLongClick(R.id.bookmark_grid)
+    public boolean onDeleteBookmark(final int position){
+        DialogHelper.showOkDialog(context, getString(R.string.delete_bookmark_title), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DatabaseManager.getOurInstance().removeBookmark(mBookmarkList.get(position));
+                updateUI();
+            }
+        });
+        return true;
     }
 }
