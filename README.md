@@ -12,9 +12,9 @@ This is a browser demo,
 3. All the bookmarks are shown in the bookmark page, click any bookmark will leading you to the page, long click will let you to delete the bookmark.  
 
 #used libraies 
-1. Realm  
-2. Picasso  
-3. butterkniffe
+1. [Realm](https://realm.io/docs/java/latest/) 
+2. [Picasso](http://square.github.io/picasso/)  
+3. [butterkniffe](https://github.com/JakeWharton/butterknife)
 
 # Improve performance of Webview
 Key point is to load the images and JS(which cost most the time when loading a website) after page loaded.  
